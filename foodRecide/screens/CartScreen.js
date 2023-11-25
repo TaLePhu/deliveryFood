@@ -63,13 +63,43 @@ export default function CartScreen() {
                 </Text>
                 <Image source={dish.image} style={tw`h-14 w-14 rounded-full`}/>
                 <Text style={tw`flex-1 font-bold text-gray-700`}>{dish.name}</Text>
-                <Text style={tw`font-semibold text-base`}>{dish.price}</Text>
+                <Text style={tw`font-semibold text-base`}>${dish.price}</Text>
+                <TouchableOpacity 
+                  style={[tw`p-1 rounded-full`, {backgroundColor: themeColors.bgColor(1)}]}
+                >
+                  <Icon.Minus strokeWidth={2} height={20} width={20} stroke={'white'} />
+                </TouchableOpacity>
               </View>
             )
           })
         }
 
       </ScrollView>
+      {/* total */}
+      <View style={[tw`p-6 px-8 rounded-t-3xl space-y-4`, {backgroundColor: themeColors.bgColor(0.2)}]}>
+        <View style={tw`flex-row justify-between`}>
+          <Text style={tw`text-gray-700`}>Subtotal</Text>
+          <Text style={tw`text-gray-700`}>$20</Text>
+        </View>
+        <View style={tw`flex-row justify-between`}>
+          <Text style={tw`text-gray-700`}>delivery fee</Text>
+          <Text style={tw`text-gray-700`}>$2</Text>
+        </View>
+        <View style={tw`flex-row justify-between`}>
+          <Text style={tw`text-gray-700 font-extrabold`}>order Total</Text>
+          <Text style={tw`text-gray-700 font-extrabold`}>$30</Text>
+        </View>
+        <View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('OrderPrepairing')}
+            style={[tw`p-3 rounded-full`, {backgroundColor: themeColors.bgColor(1)}]}
+          >
+            <Text style={tw`text-center text-white font-bold text-lg`}>
+              Place order
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   )
 }
