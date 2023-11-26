@@ -3,8 +3,20 @@ import React from 'react'
 import tw from 'twrnc'
 import * as Icon from "react-native-feather"
 import { themeColors } from '../theme'
+import {useDispatch, useSelector} from 'react-redux'
+import { addToCart, removeFromCart, selectCartItemsById } from '../slices/cartSlice'
 
 export default function Dishrow({item}) {
+  const dispatch = useDispatch();
+  const totalItems = useSelector(state=> selectCartItemsById(state, item.id));
+
+  const handleDecrease = ()=>{
+    dispatch(removeFromCart({id: item.id}))
+  }
+  const handleIncrease = ()=>{
+    dispatch(addToCart({...item}))
+  }
+
   return (
     <View style={tw`flex-row items-center bg-white p-3 rounded-3xl shadow-2xl mb-3 mx-2`}>
       <Image style={[tw`rounded-3xl`, {width:100, height: 100}]}
@@ -20,14 +32,17 @@ export default function Dishrow({item}) {
           </Text>
           <View style={tw`flex-row items-center`}>
             <TouchableOpacity
+              onPress={handleDecrease}
+              disabled={!totalItems.length}
               style={[tw`p-1 rounded-full`, {backgroundColor: themeColors.bgColor(1)}]}
             >
               <Icon.Minus strokeWidth={2} height={20} width={20} stroke={'white'}/>
             </TouchableOpacity>
             <Text style={tw`px-3`}>
-              {2}
+              {totalItems.length}
             </Text>
             <TouchableOpacity
+              onPress={handleIncrease}
               style={[tw`p-1 rounded-full`, {backgroundColor: themeColors.bgColor(1)}]}
             >
               <Icon.Plus strokeWidth={2} height={20} width={20} stroke={'white'}/>

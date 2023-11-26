@@ -5,12 +5,19 @@ import {useNavigation} from '@react-navigation/native'
 import tw from 'twrnc'
 import { themeColors } from '../theme';
 import * as Icon from "react-native-feather"
-
+import { selectRestaurant } from '../slices/restaurantSlice'
+import {useDispatch, useSelector} from 'react-redux'
+import { emptyCart } from '../slices/cartSlice'
 
 
 export default function DeliveryScreen() {
-    const restaurant = featured.restaurants[0];
+    const restaurant = useSelector(selectRestaurant);
     const navigation = useNavigation();
+    const dispatch = useDispatch()
+    const cancelOrder = ()=>{
+      navigation.navigate('Home');
+      dispatch(emptyCart());
+    }
   return (
     <View style={tw`flex-1`}>
       {/* map view */}
@@ -55,7 +62,7 @@ export default function DeliveryScreen() {
             <TouchableOpacity style={tw`bg-white p-2 rounded-full`}>
               <Icon.Phone fill={themeColors.bgColor(1)} stroke={themeColors.bgColor(1)} strokeWidth={1}/>
             </TouchableOpacity>.
-            <TouchableOpacity onPress={()=>navigation.navigate('Home')} style={tw`bg-white p-2 rounded-full`}>
+            <TouchableOpacity onPress={cancelOrder} style={tw`bg-white p-2 rounded-full`}>
               <Icon.X stroke={'red'} strokeWidth={4}/>
             </TouchableOpacity>
           </View>
